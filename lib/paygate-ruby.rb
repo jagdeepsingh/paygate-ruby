@@ -7,5 +7,9 @@ require 'paygate/member'
 require 'paygate/response'
 require 'paygate/transaction'
 
+require 'paygate/helpers/form_helper' if defined? ActionView
+
 module Paygate
+  CONFIG = YAML.load(File.read(File.expand_path('../data/config.yml', File.dirname(__FILE__)))).freeze
+  KOREA_BIN_NUMBERS = CONFIG[:korea][:bin_numbers].freeze
 end

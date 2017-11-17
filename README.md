@@ -24,14 +24,161 @@ To start making the transactions on PayGate, you will need a Member ID and a Sec
 
 After a successful registration, you will have access to the [dashboard](https://admin.paygate.net/front/board/welcome.jsp).
 
-Now, initialize a `Paygate::Member` instance using the Member ID and Secret you generated above.
+NOTE: Unless otherwise stated, all the following documentation is for making payments with Korean local credit cards in currency 'WON'.
+
+### 1 Purchase
+
+#### 1.1 Include javascript
+
+Include the _OpenPayAPI.js_ in `<head>` of your payment page.
+
+```slim
+= javascript_include_tag paygate_open_pay_api_js_url
+```
+
+#### 1.2 Payment form
+
+Render the PayGate payment form in your view file.
+
+```slim
+= paygate_open_pay_api_form
+```
+
+You will see a form with all the necessary fields for making payment with a credit card. Some of the fields have default values set. You can also set the value and placeholder for almost all the fields while rendering the form. See example below:
+
+```slim
+/ payment.html.slim
+= paygate_open_pay_api_form(\
+    mid: { value: 'testmid', placeholder: 'Merchant ID' },
+    currency: { value: 'USD' },
+    amount: { value: 2000 }\
+  )
+```
+
+Here is a list of all the form fields which you can set:
+- mid
+- locale (default: 'KR')
+- charset (default: 'UTF-8')
+- title
+- currency (default: 'WON')
+- amount
+- pay_method (default: 'card')
+- customer_name
+- customer_email
+- card_number
+- expiry_year
+- expiry_month
+- cvv
+
+The form also contains some fields which will are filled after the response is returned by the API. They are:
+- card_auth_code
+- response_code
+- response_message
+- tid
+- profile_no
+- hash_result
+
+Lets explore some of these fields more.
+
+**mid**
+
+You need to set your Member ID in this field.
+
+If you have setup separate Member IDs for Korean and International cards, you can fill the value of `mid` accordingly. To know whether the credit card number entered by a customer is Korean or not, you can check the first 6 digits of card number to match Korean BIN numbers. Full list is available as `Paygate::KOREA_BIN_NUMBERS`.
+
+**pay_method**
+
+Value of `pay_method` for Korean cards should be set to "card" and for international cards, it should be "104".
+
+**locale**
+
+Valid values for `locale` are: "KR", "US", "JP", and "CN".
+
+**currency**
+
+Currencies supported are: "WON", and "USD".
+
+**amount**
+
+You need to contact PayGate to know the correct amount for making a successful transaction in test mode.
+
+Remember, in test mode too, PayGate makes real transactions and you need to cancel them for the refunds.
+
+**tid**
+
+For every transaction a `tid` is created by PayGate JS before making a request to the API.
+
+**response_code**
+
+This is filled automatically by PayGate JS when response is returned. A `response_code` of "0000" means successful transaction.
+
+**response_message**
+
+In case of failure, you can see the error message returned by the API here.
+
+**profile_no**
+
+If Profile Payment Service is enabled on your Member ID, then you will get a subscription ID for customer in this field. You can use this `profile_no` to make payments for the same customer in future.
+
+#### 1.3 Response screen
+
+You also need to add a screen at the same HTML level as above form. OpenPayAPI popups for further authentication as well as the response from the API is displayed in this screen.
+
+```slim
+= paygate_open_pay_api_screen
+```
+
+#### 1.4 Callbacks
+
+You also need to implement a few callbacks to handle the API response. Add these to your Javascript.
+
+```js
+// This is called when a response is returned from PayGate API
+function getPGIOresult() {
+  displayStatus(getPGIOElement('ResultScreen'));
+  verifyReceived(getPGIOElement('tid'), 'callbacksuccess', 'callbackfail');
+}
+
+// This is called when a response (success/failure) is returned from the API
+function callbacksuccess() {
+  var replycode = getPGIOElement('replycode');
+
+  if (replycode == '0000') {
+    alert('Payment was successful');
+  } else {
+    alert('Payment failed with code: ' + replycode);
+  }
+}
+
+// This is called when there is a system error
+function callbackfail() {
+  alert('System error. Please try again.');
+}
+```
+
+#### 1.5 Submit the form
+
+Now finally, lets add an event to make a call to OpenPayAPI on submit of the form. If you are using jQuery, you can do it as follows:
+
+```js
+$('form[name="PGIOForm"]').on('submit', function(event){
+  event.preventDefault();
+  doTransaction(document.PGIOForm);
+})
+```
+
+And, your payment form is all set to make payments.
+
+### 2 Cancel
+
+Initialize a `Paygate::Member` instance using the Member ID and Secret you have.
 
 ```ruby
 member = Paygate::Member.new('testmid', 'secret')
  => #<Paygate::Member:0x007f96bdb70f38 @mid="testmid", @secret="secret">
 ```
 
-The `member` responds to methods `mid`, and `secret`.
+`member` responds to methods `mid`, and `secret`.
 
 ```ruby
 member.mid
@@ -41,7 +188,7 @@ member.secret
  => "secret"
 ```
 
-### Cancel a transaction
+Cancel the transaction.
 
 ```ruby
 response = member.cancel_transaction('testmid_123456.654321', amount: 1000)
