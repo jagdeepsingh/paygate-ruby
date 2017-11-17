@@ -192,7 +192,7 @@ Cancel the transaction.
 
 ```ruby
 response = member.cancel_transaction('testmid_123456.654321', amount: 1000)
- => #<Paygate::Response:0x007ff929351f90 @transaction_type=:cancel, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"tid testmid_123456.654321 was canceled before.\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"tid testmid_123456.654321 was canceled before."}}>
+ => #<Paygate::Response:0x007fbf3d111940 @transaction_type=:cancel, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}>
 ```
 
 Here, _testmid_123456.654321_ is `tid` of the transaction you want to cancel.
@@ -207,7 +207,7 @@ response.http_code
  => "200"
 
 response.json
- => {"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"tid testmid_123456.654321 was canceled before."}}
+ => {"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}
 ```
 
 Apart from these it also responds to `message` and `body`.
