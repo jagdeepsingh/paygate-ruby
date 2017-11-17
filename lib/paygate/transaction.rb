@@ -27,7 +27,9 @@ module Paygate
       # Make request
       uri = URI(CANCEL_API_URL)
       uri.query = ::URI.encode_www_form(params)
-      ::Net::HTTP.get_response(uri)
+      response = ::Net::HTTP.get_response(uri)
+
+      Response.build_from_net_http_response(:cancel, response)
     end
   end
 end
