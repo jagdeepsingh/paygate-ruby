@@ -212,6 +212,20 @@ response.json
 
 Apart from these it also responds to `message` and `body`.
 
+### 3 Javascript helpers
+
+`paygate-ruby` also provides a Javascript class `Paygate` with some helper functions that can be used in your Javascript e.g.
+
+- _openPayApiForm_ - Returns the payment form
+- _openPayApiScreen_ - Returns the screen for paygate API response
+- _findInputByName_ - Find an input field in payment form by name. Pass the _camelCased_ form of field names from section 1.2 above as arguments.
+- _responseCode_
+- _responseMessage_
+- _tid_
+- _profileNo_
+- _fillInput_ - Accepts input name (_camelCased_) and a value to set
+- _submitForm_ - Makes a call to PayGate API with the payment form inputs
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
