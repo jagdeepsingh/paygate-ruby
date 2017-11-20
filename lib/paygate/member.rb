@@ -11,5 +11,11 @@ module Paygate
       txn.member = self
       txn.cancel(options)
     end
+
+    def profile_pay(profile_no, currency, amount)
+      profile = Profile.new(profile_no)
+      profile.member = self
+      profile.purchase(currency, amount)
+    end
   end
 end

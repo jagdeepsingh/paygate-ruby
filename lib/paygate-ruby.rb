@@ -6,6 +6,7 @@ require 'paygate/aes_ctr'
 require 'paygate/member'
 require 'paygate/response'
 require 'paygate/transaction'
+require 'paygate/profile'
 
 require 'paygate/helpers/form_helper' if defined? ActionView
 

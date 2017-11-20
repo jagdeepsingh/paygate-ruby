@@ -26,6 +26,11 @@ After a successful registration, you will have access to the [dashboard](https:/
 
 NOTE: Unless otherwise stated, all the following documentation is for making payments with Korean local credit cards in currency 'WON'.
 
+Contents:
+- [1 Purchase](#1-purchase)
+- [2 Cancel](#2-cancel)
+- [3 Profile Pay](#3-profile-pay)
+
 ### 1 Purchase
 
 #### 1.1 Include javascript
@@ -212,7 +217,24 @@ response.json
 
 Apart from these it also responds to `message` and `body`.
 
-### 3 Javascript helpers
+### 3 Profile Pay
+
+You can use the `profile_no` returned from the OpenPayAPI after first payment by a customer to make future payments for him.
+
+```ruby
+response = member.profile_pay('profile_1234567890', 'WON', 1000)
+
+response.transaction_type
+ => :profile_pay
+
+response.http_code
+ => "200"
+
+response.json
+ => {"validecode"=>"00", "authcode"=>"12345678", "authdt"=>"20171120165728", "cardname"=>"BC \x00\x00\x00\x00", "cardnumber"=>"411111**********", "cardtype"=>"301310", "cardquota"=>"00", "cardexpiremonth"=>"11", "cardexpireyear"=>"2020", "merchantno"=>"12345678", "m_tid"=>nil, "paymethodname"=>"CARD_BASIC", "ReplyMsg"=>"\xBA\xBA\xBC\xBD\xC1\xC2\xC3\xC4        OK: 12345678", "ReplyCode"=>"0000", "receipttoname"=>"Test name\xC1\xD1\xB1\xB1\xC1\xA1", "receipttoemail"=>"dev@paygate.net", "subtotalprice"=>"1000", "transactionid"=>"testmid_123456.654321", "hashresult"=>"db1fdc6789cc8d088172b79ca680b3af8711e9fb32", "mb_serial_no"=>"\r\n"}
+```
+
+### 4 Javascript helpers
 
 `paygate-ruby` also provides a Javascript class `Paygate` with some helper functions that can be used in your Javascript e.g.
 
