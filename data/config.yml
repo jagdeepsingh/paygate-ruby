@@ -1,4 +1,19 @@
 ---
+:locales:
+  en: &LOCALE_US 'US'
+  en-US: *LOCALE_US
+  ko: &LOCALE_KR 'KR'
+  ko-KR: *LOCALE_KR
+  ja: 'JP'
+  zh-CN: 'CN'
+
+:intl:
+  :brands:
+    :visa: '2Z0'
+    :mastercard: '2Y0'
+    :jcb: '2J0'
+    :amex: '2A0'
+
 :korea:
   :bin_numbers:
     - '526373'

@@ -62,7 +62,7 @@ You will see a form with all the necessary fields for making payment with a cred
 
 Here is a list of all the form fields which you can set:
 - mid
-- locale (default: 'KR')
+- locale (default: 'US')
 - charset (default: 'UTF-8')
 - title
 - currency (default: 'WON')
@@ -97,11 +97,31 @@ Value of `pay_method` for Korean cards should be set to "card" and for internati
 
 **locale**
 
-Valid values for `locale` are: "KR", "US", "JP", and "CN".
+Use `Paygate.mapped_locale` to get the locale in correct format for the form input.
+
+```ruby
+Paygate.mapped_locale(:en)
+ => 'US'
+
+Paygate.mapped_locale('ko')
+ => 'KR'
+```
+
+Valid inputs are "en", "en-US", "ko", "ko-KR", "ja", "zh-CN" and their symbolized versions. Passing `nil` would return default locale i.e. "US".
 
 **currency**
 
-Currencies supported are: "WON", and "USD".
+Use `Paygate.mapped_currency` to get the currency in the correct format.
+
+```ruby
+Paygate.mapped_currency('USD')
+ => 'USD'
+
+Paygate.mapped_currency('KRW')
+ => 'WON'
+```
+
+Passing `nil` above would return default currency i.e. "WON".
 
 **amount**
 

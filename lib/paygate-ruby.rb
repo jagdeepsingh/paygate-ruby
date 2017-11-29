@@ -14,5 +14,22 @@ module Paygate
   class Engine < ::Rails::Engine; end
 
   CONFIG = YAML.load(File.read(File.expand_path('../data/config.yml', File.dirname(__FILE__)))).freeze
+  LOCALES_MAP = CONFIG[:locales].freeze
+  INTL_BRANDS_MAP = CONFIG[:intl][:brands].freeze
   KOREA_BIN_NUMBERS = CONFIG[:korea][:bin_numbers].freeze
+
+  DEFAULT_CURRENCY = 'WON'.freeze
+  DEFAULT_LOCALE = 'US'.freeze
+
+  def mapped_currency(currency)
+    return DEFAULT_CURRENCY unless currency.present?
+
+    currency.to_s == 'KRW' ? 'WON' : currency.to_s
+  end
+  module_function :mapped_currency
+
+  def mapped_locale(locale)
+    locale.present? ? LOCALES_MAP[locale.to_s] : DEFAULT_LOCALE
+  end
+  module_function :mapped_locale
 end
