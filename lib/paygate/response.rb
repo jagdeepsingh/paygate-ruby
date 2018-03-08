@@ -1,6 +1,6 @@
 module Paygate
   class Response
-    attr_accessor :transaction_type, :http_code, :message, :body, :json
+    attr_accessor :transaction_type, :http_code, :message, :body, :raw_info, :json
 
     def self.build_from_net_http_response(txn_type, response)
       r = new

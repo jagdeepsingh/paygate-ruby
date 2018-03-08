@@ -29,7 +29,9 @@ module Paygate
       uri.query = ::URI.encode_www_form(params)
       response = ::Net::HTTP.get_response(uri)
 
-      Response.build_from_net_http_response(:cancel, response)
+      r = Response.build_from_net_http_response(:cancel, response)
+      r.raw_info = OpenStruct.new(tid: tid, tid_enc: tid_enc, request_url: uri.to_s)
+      r
     end
   end
 end
