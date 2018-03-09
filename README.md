@@ -217,7 +217,8 @@ Cancel the transaction.
 
 ```ruby
 response = member.cancel_transaction('testmid_123456.654321', amount: 1000)
- => #<Paygate::Response:0x007fbf3d111940 @transaction_type=:cancel, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}>
+ => #<Paygate::Response:0x007fbf3d111940 @transaction_type=:cancel, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}, @raw_info=
+  #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=1000">>
 ```
 
 Here, _testmid_123456.654321_ is `tid` of the transaction you want to cancel.
@@ -233,6 +234,12 @@ response.http_code
 
 response.json
  => {"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}
+
+response.raw_info
+ => #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=1000">
+
+response.raw_info.request_url
+ => "https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=1000"
 ```
 
 Apart from these it also responds to `message` and `body`.
