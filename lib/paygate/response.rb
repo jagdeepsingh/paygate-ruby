@@ -10,7 +10,7 @@ module Paygate
       r.body = response.body
 
       case txn_type
-        when :cancel
+        when :refund
           r.json = JSON.parse response.body.gsub(/^callback\((.*)\)$/, '\1') if response.code.to_i == 200
         when :profile_pay
           r.json = {}

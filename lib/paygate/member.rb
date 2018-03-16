@@ -6,10 +6,10 @@ module Paygate
       @mid, @secret = mid, secret
     end
 
-    def cancel_transaction(txn_id, options = {})
+    def refund_transaction(txn_id, options = {})
       txn = Transaction.new(txn_id)
       txn.member = self
-      txn.cancel(options)
+      txn.refund(options)
     end
 
     def profile_pay(profile_no, currency, amount)

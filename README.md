@@ -28,7 +28,7 @@ NOTE: Unless otherwise stated, all the following documentation is for making pay
 
 Contents:
 - [1 Purchase](#1-purchase)
-- [2 Cancel](#2-cancel)
+- [2 Refund](#2-refund)
 - [3 Profile Pay](#3-profile-pay)
 
 ### 1 Purchase
@@ -127,7 +127,7 @@ Passing `nil` above would return default currency i.e. "WON".
 
 You need to contact PayGate to know the correct amount for making a successful transaction in test mode.
 
-Remember, in test mode too, PayGate makes real transactions and you need to cancel them for the refunds.
+Remember, in test mode too, PayGate makes real transactions and you need to `refund` them.
 
 **tid**
 
@@ -194,7 +194,7 @@ $('form[name="PGIOForm"]').on('submit', function(event){
 
 And, your payment form is all set to make payments.
 
-### 2 Cancel
+### 2 Refund
 
 Initialize a `Paygate::Member` instance using the Member ID and Secret you have.
 
@@ -213,21 +213,21 @@ member.secret
  => "secret"
 ```
 
-Cancel the transaction.
+#### 2.1 Full refund
 
 ```ruby
-response = member.cancel_transaction('testmid_123456.654321', amount: 1000)
- => #<Paygate::Response:0x007fbf3d111940 @transaction_type=:cancel, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}, @raw_info=
-  #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=1000">>
+response = member.refund_transaction('testmid_123456.654321')
+ => #<Paygate::Response:0x007fbf3d111940 @transaction_type=:refund, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}, @raw_info=
+  #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F">>
 ```
 
-Here, _testmid_123456.654321_ is `tid` of the transaction you want to cancel.
+Here, _testmid_123456.654321_ is `tid` of the transaction you want to refund.
 
 `response` provides some helpful accessor methods too.
 
 ```ruby
 response.transaction_type
- => :cancel
+ => :refund
 
 response.http_code
  => "200"
@@ -236,13 +236,21 @@ response.json
  => {"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}
 
 response.raw_info
- => #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=1000">
+ => #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F">
 
 response.raw_info.request_url
- => "https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=1000"
+ => "https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F"
 ```
 
 Apart from these it also responds to `message` and `body`.
+
+#### 2.2 Partial refund
+
+For partial refunds, pass `amount` as an option to `refund_transaction` method:
+
+```ruby
+response = member.refund_transaction('testmid_123456.654321', amount: 1000)
+```
 
 ### 3 Profile Pay
 

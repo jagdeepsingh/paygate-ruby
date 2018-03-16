@@ -4,7 +4,8 @@ require 'net/http'
 
 module Paygate
   class Transaction
-    CANCEL_API_URL = 'https://service.paygate.net/service/cancelAPI.json'.freeze
+    REFUND_API_URL = 'https://service.paygate.net/service/cancelAPI.json'.freeze
+    FULL_AMOUNT_IDENTIFIER = 'F'.freeze
 
     attr_reader :tid
     attr_accessor :member
@@ -13,7 +14,7 @@ module Paygate
       @tid = tid
     end
 
-    def cancel(options = {})
+    def refund(options = {})
       # Encrypt data
       api_key_256 = ::Digest::SHA256.hexdigest(member.secret)
       aes_ctr = AesCtr.encrypt(tid, api_key_256, 256)
@@ -22,14 +23,15 @@ module Paygate
       # Prepare params
       params = { callback: 'callback', mid: member.mid, tid: tid_enc }
       params.merge!(options.slice(:amount))
+      params[:amount] ||= FULL_AMOUNT_IDENTIFIER
       params.delete_if { |_, v| v.blank? }
 
       # Make request
-      uri = URI(CANCEL_API_URL)
+      uri = URI(REFUND_API_URL)
       uri.query = ::URI.encode_www_form(params)
       response = ::Net::HTTP.get_response(uri)
 
-      r = Response.build_from_net_http_response(:cancel, response)
+      r = Response.build_from_net_http_response(:refund, response)
       r.raw_info = OpenStruct.new(tid: tid, tid_enc: tid_enc, request_url: uri.to_s)
       r
     end
