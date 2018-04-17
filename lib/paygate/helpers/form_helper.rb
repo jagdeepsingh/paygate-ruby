@@ -1,7 +1,9 @@
 module Paygate
   module FormHelper
     def paygate_open_pay_api_js_url
-      'https://api.paygate.net/ajax/common/OpenPayAPI.js'.freeze
+      (Paygate.configuration.mode == :live) ?
+        'https://api.paygate.net/ajax/common/OpenPayAPI.js'.freeze :
+        'https://stgapi.paygate.net/ajax/common/OpenPayAPI.js'.freeze
     end
 
     def paygate_open_pay_api_form(options = {})
