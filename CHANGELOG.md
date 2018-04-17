@@ -1,16 +1,20 @@
 # CHANGELOG
 
+## 0.1.3 (upcoming)
+
+- [PR#3](https://github.com/jagdeepsingh/paygate-ruby/pull/3) Make `Paygate` configurable with the help of a block. ([jagdeepsingh](https://github.com/jagdeepsingh))
+
 ## 0.1.2 - 2018-03-16
 
-- Fix Bug - Pass correct value of _amount_ for full refund of a transaction.
+- Fix Bug - Pass correct value of _amount_ for full refund of a transaction. ([jagdeepsingh](https://github.com/jagdeepsingh))
 
 ## 0.1.1 - 2018-03-09
 
-- Add raw info to the response of refund transaction.
+- [PR#1](https://github.com/jagdeepsingh/paygate-ruby/pull/1) Add raw info to the response of refund transaction. ([jagdeepsingh](https://github.com/jagdeepsingh))
 
 ## 0.1.0 - 2017-11-29
 
-- Add view helper for rendering OpenPayAPI payment form with default values.
-- Add Javascript helpers for accessing OpenPayAPI payment form and payment screen.
-- Support full refund of a transaction using CancelAPI.
-- Support future payments (Profile Pay) for existing customers.
+- Add view helper for rendering OpenPayAPI payment form with default values. ([jagdeepsingh](https://github.com/jagdeepsingh))
+- Add Javascript helpers for accessing OpenPayAPI payment form and payment screen. ([jagdeepsingh](https://github.com/jagdeepsingh))
+- Support full refund of a transaction using CancelAPI. ([jagdeepsingh](https://github.com/jagdeepsingh))
+- Support future payments (Profile Pay) for existing customers. ([jagdeepsingh](https://github.com/jagdeepsingh))
