@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.1.3 (upcoming)
+## 0.1.4 - 2018-04-20
 
 - [PR#3](https://github.com/jagdeepsingh/paygate-ruby/pull/3) Make `Paygate` configurable with the help of a block. ([jagdeepsingh](https://github.com/jagdeepsingh))
 
