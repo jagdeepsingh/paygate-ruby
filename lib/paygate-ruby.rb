@@ -1,5 +1,6 @@
 require "paygate/version"
 
+require 'paygate/configuration'
 require 'paygate/aes'
 require 'paygate/aes_ctr'
 
@@ -32,4 +33,16 @@ module Paygate
     locale.present? ? LOCALES_MAP[locale.to_s] : DEFAULT_LOCALE
   end
   module_function :mapped_locale
+
+  class << self
+    attr_writer :configuration
+  end
+
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
+
+  def self.configure
+    yield configuration
+  end
 end

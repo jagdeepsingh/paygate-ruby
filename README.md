@@ -18,6 +18,18 @@ Or install it yourself as:
 
     $ gem install paygate-ruby
 
+## Configuration
+
+You can pass a block to the `configure` method to make changes to the `Paygate` configuration.
+
+```ruby
+Paygate.configure do |config|
+  config.mode = :sandbox
+end
+```
+
+Default value for `mode` is `:live`. It uses different API urls in different modes for making payments.
+
 ## Usage
 
 To start making the transactions on PayGate, you will need a Member ID and a Secret, for which you can register [here](https://admin.paygate.net/front/regist/registMember.jsp?lang=us).
@@ -246,10 +258,12 @@ Apart from these it also responds to `message` and `body`.
 
 #### 2.2 Partial refund
 
-For partial refunds, pass `amount` as an option to `refund_transaction` method:
+For partial refunds, you need to pass `amount` as an option to `refund_transaction` method along with other options.
 
 ```ruby
-response = member.refund_transaction('testmid_123456.654321', amount: 1000)
+response = member.refund_transaction('testmid_123456.654321',
+                                     amount: 1000,
+                                     order_id: 'ord10001')
 ```
 
 ### 3 Profile Pay
