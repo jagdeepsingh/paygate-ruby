@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.5 - 2019-01-21
+
+- Update BIN numbers for Korean domestic cards. ([jagdeepsingh](https://github.com/jagdeepsingh))
+
 ## 0.1.4 - 2018-04-20
 
 - [PR#3](https://github.com/jagdeepsingh/paygate-ruby/pull/3) Make `Paygate` configurable with the help of a block. ([jagdeepsingh](https://github.com/jagdeepsingh))
