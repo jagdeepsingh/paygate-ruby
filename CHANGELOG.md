@@ -1,8 +1,12 @@
 # CHANGELOG
 
+## 0.1.6 - 2019-02-01
+
+- Update BIN numbers for Korean domestic cards (Feb 2019). ([jagdeepsingh](https://github.com/jagdeepsingh))
+
 ## 0.1.5 - 2019-01-21
 
-- Update BIN numbers for Korean domestic cards. ([jagdeepsingh](https://github.com/jagdeepsingh))
+- Update BIN numbers for Korean domestic cards (Jan 2019). ([jagdeepsingh](https://github.com/jagdeepsingh))
 
 ## 0.1.4 - 2018-04-20
 
