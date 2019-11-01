@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## 0.1.7 - 2019-11-01
+## Next
 
-- Update BIN numbers for Korean domestic cards (Oct 2019). ([jagdeepsingh](https://github.com/jagdeepsingh))
+- [PR#4](https://github.com/jagdeepsingh/paygate-ruby/pull/4) Update BIN numbers for Korean domestic cards (Oct 2019). ([jagdeepsingh](https://github.com/jagdeepsingh))
 
 ## 0.1.6 - 2019-02-01
 
