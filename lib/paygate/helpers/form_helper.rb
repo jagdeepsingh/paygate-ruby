@@ -1,5 +1,127 @@
 module Paygate
   module FormHelper
+    FORM_TEXT_FIELDS = {
+      mid: {
+        placeholder: 'Member ID'
+      },
+
+      locale: {
+        name: 'langcode',
+        default: 'KR',
+        placeholder: 'Language'
+      },
+
+      charset: {
+        default: 'UTF-8',
+        placeholder: 'Charset'
+      },
+
+      title: {
+        name: 'goodname',
+        placeholder: 'Title'
+      },
+
+      currency: {
+        name: 'goodcurrency',
+        default: 'WON',
+        placeholder: 'Currency'
+      },
+
+      amount: {
+        name: 'unitprice',
+        placeholder: 'Amount'
+      },
+
+      meta1: {
+        name: 'goodoption1',
+        placeholder: 'Good Option 1'
+      },
+
+      meta2: {
+        name: 'goodoption2',
+        placeholder: 'Good Option 2'
+      },
+
+      meta3: {
+        name: 'goodoption3',
+        placeholder: 'Good Option 3'
+      },
+
+      meta4: {
+        name: 'goodoption4',
+        placeholder: 'Good Option 4'
+      },
+
+      meta5: {
+        name: 'goodoption5',
+        placeholder: 'Good Option 5'
+      },
+
+      pay_method: {
+        name: 'paymethod',
+        default: 'card',
+        placeholder: 'Pay Method'
+      },
+
+      customer_name: {
+        name: 'receipttoname',
+        placeholder: 'Customer Name'
+      },
+
+      customer_email: {
+        name: 'receipttoemail',
+        placeholder: 'Customer Email'
+      },
+
+      card_number: {
+        name: 'cardnumber',
+        placeholder: 'Card Number'
+      },
+
+      expiry_year: {
+        name: 'cardexpireyear',
+        placeholder: 'Expiry Year'
+      },
+
+      expiry_month: {
+        name: 'cardexpiremonth',
+        placeholder: 'Expiry Month'
+      },
+
+      cvv: {
+        name: 'cardsecretnumber',
+        placeholder: 'CVV'
+      },
+
+      card_auth_code: {
+        name: 'cardauthcode',
+        placeholder: 'Card Auth Code'
+      },
+
+      response_code: {
+        name: 'replycode',
+        placeholder: 'Response Code'
+      },
+
+      response_message: {
+        name: 'replyMsg',
+        placeholder: 'Response Message'
+      },
+
+      tid: {
+        placeholder: 'TID'
+      },
+
+      profile_no: {
+        placeholder: 'Profile No'
+      },
+
+      hash_result: {
+        name: 'hashresult',
+        placeholder: 'Hash Result'
+      }
+    }
+
     def paygate_open_pay_api_js_url
       (Paygate.configuration.mode == :live) ?
         'https://api.paygate.net/ajax/common/OpenPayAPI.js'.freeze :
@@ -10,62 +132,15 @@ module Paygate
       form_tag({}, name: 'PGIOForm') do
         fields = []
 
-        fields << text_field_tag(:mid, options[:mid].try(:[], :value),
-          placeholder: options[:mid].try(:[], :placeholder) || 'Member ID').html_safe
-
-        fields << text_field_tag(:locale, options[:locale].try(:[], :value) || 'KR',
-          name: 'langcode', placeholder: options[:locale].try(:[], :placeholder) || 'Language').html_safe
-
-        fields << text_field_tag(:charset, options[:charset].try(:[], :value) || 'UTF-8',
-          placeholder: options[:charset].try(:[], :placeholder) || 'Charset').html_safe
-
-        fields << text_field_tag(:title, options[:title].try(:[], :value),
-          name: 'goodname', placeholder: options[:title].try(:[], :placeholder) || 'Title').html_safe
-
-        fields << text_field_tag(:currency, options[:currency].try(:[], :value) || 'WON',
-          name: 'goodcurrency', placeholder: options[:currency].try(:[], :placeholder) || 'Currency').html_safe
-
-        fields << text_field_tag(:amount, options[:amount].try(:[], :value),
-          name: 'unitprice', placeholder: options[:amount].try(:[], :placeholder) || 'Amount').html_safe
-
-        fields << text_field_tag(:pay_method, options[:pay_method].try(:[], :value) || 'card',
-          name: 'paymethod', placeholder: options[:pay_method].try(:[], :placeholder) || 'Pay Method').html_safe
-
-        fields << text_field_tag(:customer_name, options[:customer_name].try(:[], :value),
-          name: 'receipttoname', placeholder: options[:customer_name].try(:[], :placeholder) || 'Customer Name').html_safe
-
-        fields << text_field_tag(:customer_email, options[:customer_email].try(:[], :value),
-          name: 'receipttoemail', placeholder: options[:customer_email].try(:[], :placeholder) || 'Customer Email').html_safe
-
-        fields << text_field_tag(:card_number, options[:card_number].try(:[], :value),
-          name: 'cardnumber', placeholder: options[:card_number].try(:[], :placeholder) || 'Card Number').html_safe
-
-        fields << text_field_tag(:expiry_year, options[:expiry_year].try(:[], :value),
-          name: 'cardexpireyear', placeholder: options[:expiry_year].try(:[], :placeholder) || 'Expiry Year').html_safe
-
-        fields << text_field_tag(:expiry_month, options[:expiry_month].try(:[], :value),
-          name: 'cardexpiremonth', placeholder: options[:expiry_month].try(:[], :placeholder) || 'Expiry Month').html_safe
-
-        fields << text_field_tag(:cvv, options[:cvv].try(:[], :value),
-          name: 'cardsecretnumber', placeholder: options[:cvv].try(:[], :placeholder) || 'CVV').html_safe
-
-        fields << text_field_tag(:card_auth_code, nil,
-          name: 'cardauthcode', placeholder: options[:card_auth_code].try(:[], :placeholder) || 'Card Auth Code').html_safe
-
-        fields << text_field_tag(:response_code, nil,
-          name: 'replycode', placeholder: options[:response_code].try(:[], :placeholder) || 'Response Code').html_safe
-
-        fields << text_field_tag(:response_message, nil,
-          name: 'replyMsg', placeholder: options[:response_message].try(:[], :placeholder) || 'Response Message').html_safe
-
-        fields << text_field_tag(:tid, nil,
-          placeholder: options[:tid].try(:[], :placeholder) || 'TID').html_safe
-
-        fields << text_field_tag(:profile_no, nil,
-          placeholder: options[:profile_no].try(:[], :placeholder) || 'Profile No').html_safe
-
-        fields << text_field_tag(:hash_result, nil,
-          name: 'hashresult', placeholder: options[:hash_result].try(:[], :placeholder) || 'Hash Result').html_safe
+        FORM_TEXT_FIELDS.each do |key, opts|
+          arg_opts = options[key] || {}
+          fields << text_field_tag(
+            key,
+            arg_opts[:value] || opts[:default],
+            name: opts[:name] || key.to_s,
+            placeholder: arg_opts[:placeholder] || opts[:placeholder]
+          ).html_safe
+        end
 
         fields.join.html_safe
       end.html_safe

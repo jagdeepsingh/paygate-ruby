@@ -2,6 +2,8 @@
 
 ## Next
 
+- [PR#5](https://github.com/jagdeepsingh/paygate-ruby/pull/5) Add `verify` method to Transaction class and more meta fields to the payment form. ([jagdeepsingh](https://github.com/jagdeepsingh))
+
 ## 0.1.7 - 2019-11-01
 
 - [PR#4](https://github.com/jagdeepsingh/paygate-ruby/pull/4) Update BIN numbers for Korean domestic cards (Oct 2019). ([jagdeepsingh](https://github.com/jagdeepsingh))
