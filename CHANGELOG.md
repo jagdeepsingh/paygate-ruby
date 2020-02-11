@@ -2,6 +2,8 @@
 
 ## Next
 
+## 0.1.8 - 2020-02-11
+
 - [PR#5](https://github.com/jagdeepsingh/paygate-ruby/pull/5) Add `verify` method to Transaction class and more meta fields to the payment form. ([jagdeepsingh](https://github.com/jagdeepsingh))
 
 ## 0.1.7 - 2019-11-01
