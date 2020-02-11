@@ -40,12 +40,14 @@ NOTE: Unless otherwise stated, all the following documentation is for making pay
 
 Contents:
 - [1 Purchase](#1-purchase)
-- [2 Refund](#2-refund)
-- [3 Profile Pay](#3-profile-pay)
+- [2 Verify](#2-verify)
+- [3 Refund](#3-refund)
+- [4 Profile Pay](#4-profile-pay)
+- [5 JavaScript helpers](#5-javascript-helpers)
 
 ### 1 Purchase
 
-#### 1.1 Include javascript
+#### 1.1 Include JavaScript
 
 Include the _OpenPayAPI.js_ in `<head>` of your payment page.
 
@@ -79,6 +81,7 @@ Here is a list of all the form fields which you can set:
 - title
 - currency (default: 'WON')
 - amount
+- meta1, meta2, meta3, meta4, meta5
 - pay_method (default: 'card')
 - customer_name
 - customer_email
@@ -87,7 +90,7 @@ Here is a list of all the form fields which you can set:
 - expiry_month
 - cvv
 
-The form also contains some fields which will are filled after the response is returned by the API. They are:
+The form also contains some fields which are filled after the response is returned by the API. They are:
 - card_auth_code
 - response_code
 - response_message
@@ -141,6 +144,10 @@ You need to contact PayGate to know the correct amount for making a successful t
 
 Remember, in test mode too, PayGate makes real transactions and you need to `refund` them.
 
+**meta1, meta2, meta3, meta4, meta5**
+
+These fields can be used to pass any additional data to PayGate. If server-to-server callbacks are enabled, the gateway then sends all of these back when making a callback request to your server.
+
 **tid**
 
 For every transaction a `tid` is created by PayGate JS before making a request to the API.
@@ -165,9 +172,9 @@ You also need to add a screen at the same HTML level as above form. OpenPayAPI p
 = paygate_open_pay_api_screen
 ```
 
-#### 1.4 Callbacks
+#### 1.4 JavaScript callback
 
-You also need to implement a few callbacks to handle the API response. Add these to your Javascript.
+You also need to implement a few callbacks to handle the API response. Add these to your JavaScript.
 
 ```js
 // This is called when a response is returned from PayGate API
@@ -206,7 +213,29 @@ $('form[name="PGIOForm"]').on('submit', function(event){
 
 And, your payment form is all set to make payments.
 
-### 2 Refund
+### 2 Verify
+
+If enabled, PayGate will send a server-to-server callback on every successful transaction to the URL provided by you. The same request is sent every 5 minutes (for 10 days) until your server responds with success.
+
+This feature can be helpful if your JavaScript failed to receive the message from PayGate after a successful payment due to network issues.
+
+So, once you receive a successful JavaScript callback (`replycode == '0000'`), to prevent PayGate from sending any callback requests for that transaction (`tid`), you need to make a verification request as follows:
+
+```ruby
+txn = Paygate::Transaction.new('testmid_123456.654321')
+response = txn.verify
+ => #<Paygate::Response:0x007fd4898f14b0 ... >
+
+response.transaction_type
+ => :verify
+
+response.http_code
+ => "200"
+```
+
+Here, _testmid_123456.654321_ is `tid` of the transaction you want to verify.
+
+### 3 Refund
 
 Initialize a `Paygate::Member` instance using the Member ID and Secret you have.
 
@@ -225,15 +254,13 @@ member.secret
  => "secret"
 ```
 
-#### 2.1 Full refund
+#### 3.1 Full refund
 
 ```ruby
 response = member.refund_transaction('testmid_123456.654321')
  => #<Paygate::Response:0x007fbf3d111940 @transaction_type=:refund, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}, @raw_info=
   #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F">>
 ```
-
-Here, _testmid_123456.654321_ is `tid` of the transaction you want to refund.
 
 `response` provides some helpful accessor methods too.
 
@@ -256,7 +283,7 @@ response.raw_info.request_url
 
 Apart from these it also responds to `message` and `body`.
 
-#### 2.2 Partial refund
+#### 3.2 Partial refund
 
 For partial refunds, you need to pass `amount` as an option to `refund_transaction` method along with other options.
 
@@ -266,7 +293,7 @@ response = member.refund_transaction('testmid_123456.654321',
                                      order_id: 'ord10001')
 ```
 
-### 3 Profile Pay
+### 4 Profile Pay
 
 You can use the `profile_no` returned from the OpenPayAPI after first payment by a customer to make future payments for him.
 
@@ -283,9 +310,9 @@ response.json
  => {"validecode"=>"00", "authcode"=>"12345678", "authdt"=>"20171120165728", "cardname"=>"BC \x00\x00\x00\x00", "cardnumber"=>"411111**********", "cardtype"=>"301310", "cardquota"=>"00", "cardexpiremonth"=>"11", "cardexpireyear"=>"2020", "merchantno"=>"12345678", "m_tid"=>nil, "paymethodname"=>"CARD_BASIC", "ReplyMsg"=>"\xBA\xBA\xBC\xBD\xC1\xC2\xC3\xC4        OK: 12345678", "ReplyCode"=>"0000", "receipttoname"=>"Test name\xC1\xD1\xB1\xB1\xC1\xA1", "receipttoemail"=>"dev@paygate.net", "subtotalprice"=>"1000", "transactionid"=>"testmid_123456.654321", "hashresult"=>"db1fdc6789cc8d088172b79ca680b3af8711e9fb32", "mb_serial_no"=>"\r\n"}
 ```
 
-### 4 Javascript helpers
+### 5 JavaScript helpers
 
-`paygate-ruby` also provides a Javascript class `Paygate` with some helper functions that can be used in your Javascript e.g.
+`paygate-ruby` also provides a JavaScript class `Paygate` with some helper functions that can be used in your JavaScript e.g.
 
 - _openPayApiForm_ - Returns the payment form
 - _openPayApiScreen_ - Returns the screen for paygate API response
