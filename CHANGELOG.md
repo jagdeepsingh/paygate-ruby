@@ -2,6 +2,10 @@
 
 ## Next
 
+## 0.1.10 - 2022-05-13
+
+- [PR#7](https://github.com/tablecheck/paygate-ruby/pull/7) Fix missed files in gem package. ([johnnyshields](https://github.com/johnnyshields))
+
 ## 0.1.9 - 2022-05-13
 
 - [PR#6](https://github.com/jagdeepsingh/paygate-ruby/pull/6) Support Ruby 3.1. ([johnnyshields](https://github.com/johnnyshields))
