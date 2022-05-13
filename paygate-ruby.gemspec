@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Ruby wrapper for PayGate Korea payment gateway'
   spec.license       = 'MIT'
 
-  spec.files         = Dir.glob('{data,lib}/**/*') + %w[CHANGELOG.md LICENSE.txt README.md Rakefile]
+  spec.files         = Dir.glob('{data,lib,vendor}/**/*') + %w[CHANGELOG.md LICENSE.txt README.md Rakefile]
   spec.test_files    = Dir.glob('spec/**/*')
   spec.require_paths = ['lib']
 
