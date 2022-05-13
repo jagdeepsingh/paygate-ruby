@@ -1,6 +1,6 @@
 # paygate-ruby
 
-`paygate-ruby` is a simple Ruby wrapper for [PayGate payment gateway](http://www.paygate.net/)'s OpenPayAPI.
+`paygate-ruby` is a simple Ruby wrapper for [PayGate Korean payment gateway](http://www.paygate.net/)'s OpenPayAPI.
 
 ## Installation
 
@@ -9,14 +9,6 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'paygate-ruby'
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install paygate-ruby
 
 ## Configuration
 
@@ -32,22 +24,24 @@ Default value for `mode` is `:live`. It uses different API urls in different mod
 
 ## Usage
 
-To start making the transactions on PayGate, you will need a Member ID and a Secret, for which you can register [here](https://admin.paygate.net/front/regist/registMember.jsp?lang=us).
+To start making the transactions on PayGate, you will need a Member ID and a Secret,
+for which you can register [here](https://admin.paygate.net/front/regist/registMember.jsp?lang=us).
 
 After a successful registration, you will have access to the [dashboard](https://admin.paygate.net/front/board/welcome.jsp).
 
-NOTE: Unless otherwise stated, all the following documentation is for making payments with Korean local credit cards in currency 'WON'.
+NOTE: Unless otherwise stated, all the following documentation is for making payments
+with Korean local credit cards in currency 'WON'.
 
 Contents:
-- [1 Purchase](#1-purchase)
-- [2 Verify](#2-verify)
-- [3 Refund](#3-refund)
-- [4 Profile Pay](#4-profile-pay)
-- [5 JavaScript helpers](#5-javascript-helpers)
+- [1. Purchase](#1-purchase)
+- [2. Verify](#2-verify)
+- [3. Refund](#3-refund)
+- [4. Profile Pay](#4-profile-pay)
+- [5. JavaScript helpers](#5-javascript-helpers)
 
-### 1 Purchase
+### 1. Purchase
 
-#### 1.1 Include JavaScript
+#### 1.1. Include JavaScript
 
 Include the _OpenPayAPI.js_ in `<head>` of your payment page.
 
@@ -116,10 +110,10 @@ Use `Paygate.mapped_locale` to get the locale in correct format for the form inp
 
 ```ruby
 Paygate.mapped_locale(:en)
- => 'US'
+#=> 'US'
 
 Paygate.mapped_locale('ko')
- => 'KR'
+#=> 'KR'
 ```
 
 Valid inputs are "en", "en-US", "ko", "ko-KR", "ja", "zh-CN" and their symbolized versions. Passing `nil` would return default locale i.e. "US".
@@ -130,10 +124,10 @@ Use `Paygate.mapped_currency` to get the currency in the correct format.
 
 ```ruby
 Paygate.mapped_currency('USD')
- => 'USD'
+#=> 'USD'
 
 Paygate.mapped_currency('KRW')
- => 'WON'
+#=> 'WON'
 ```
 
 Passing `nil` above would return default currency i.e. "WON".
@@ -164,7 +158,7 @@ In case of failure, you can see the error message returned by the API here.
 
 If Profile Payment Service is enabled on your Member ID, then you will get a subscription ID for customer in this field. You can use this `profile_no` to make payments for the same customer in future.
 
-#### 1.3 Response screen
+#### 1.3. Response screen
 
 You also need to add a screen at the same HTML level as above form. OpenPayAPI popups for further authentication as well as the response from the API is displayed in this screen.
 
@@ -172,7 +166,7 @@ You also need to add a screen at the same HTML level as above form. OpenPayAPI p
 = paygate_open_pay_api_screen
 ```
 
-#### 1.4 JavaScript callback
+#### 1.4. JavaScript callback
 
 You also need to implement a few callbacks to handle the API response. Add these to your JavaScript.
 
@@ -200,7 +194,7 @@ function callbackfail() {
 }
 ```
 
-#### 1.5 Submit the form
+#### 1.5. Submit the form
 
 Now finally, lets add an event to make a call to OpenPayAPI on submit of the form. If you are using jQuery, you can do it as follows:
 
@@ -213,7 +207,7 @@ $('form[name="PGIOForm"]').on('submit', function(event){
 
 And, your payment form is all set to make payments.
 
-### 2 Verify
+### 2. Verify
 
 If enabled, PayGate will send a server-to-server callback on every successful transaction to the URL provided by you. The same request is sent every 5 minutes (for 10 days) until your server responds with success.
 
@@ -224,41 +218,41 @@ So, once you receive a successful JavaScript callback (`replycode == '0000'`), t
 ```ruby
 txn = Paygate::Transaction.new('testmid_123456.654321')
 response = txn.verify
- => #<Paygate::Response:0x007fd4898f14b0 ... >
+#=> #<Paygate::Response:0x007fd4898f14b0 ... >
 
 response.transaction_type
- => :verify
+#=> :verify
 
 response.http_code
- => "200"
+#=> "200"
 ```
 
 Here, _testmid_123456.654321_ is `tid` of the transaction you want to verify.
 
-### 3 Refund
+### 3. Refund
 
 Initialize a `Paygate::Member` instance using the Member ID and Secret you have.
 
 ```ruby
 member = Paygate::Member.new('testmid', 'secret')
- => #<Paygate::Member:0x007f96bdb70f38 @mid="testmid", @secret="secret">
+#=> #<Paygate::Member:0x007f96bdb70f38 @mid="testmid", @secret="secret">
 ```
 
 `member` responds to methods `mid`, and `secret`.
 
 ```ruby
 member.mid
- => "testmid"
+#=> "testmid"
 
 member.secret
- => "secret"
+#=> "secret"
 ```
 
-#### 3.1 Full refund
+#### 3.1. Full refund
 
 ```ruby
 response = member.refund_transaction('testmid_123456.654321')
- => #<Paygate::Response:0x007fbf3d111940 @transaction_type=:refund, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}, @raw_info=
+#=> #<Paygate::Response:0x007fbf3d111940 @transaction_type=:refund, @http_code="200", @message="OK", @body="callback({\"replyCode\":\"0000\",\"replyMessage\":\"Response has been completed\",\"content\":{\"object\":\"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000\"}})", @json={"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}, @raw_info=
   #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F">>
 ```
 
@@ -266,24 +260,24 @@ response = member.refund_transaction('testmid_123456.654321')
 
 ```ruby
 response.transaction_type
- => :refund
+#=> :refund
 
 response.http_code
- => "200"
+#=> "200"
 
 response.json
- => {"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}
+#=> {"replyCode"=>"0000", "replyMessage"=>"Response has been completed", "content"=>{"object"=>"CancelAPI tid:testmid_123456.654321 SUCCESS payRsltCode:0000"}}
 
 response.raw_info
- => #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F">
+#=> #<OpenStruct tid="testmid_123456.654321", tid_enc="AES256XQIdNnkzFwMQmhF7fuJhS3m0\n", request_url="https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F">
 
 response.raw_info.request_url
- => "https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F"
+#=> "https://service.paygate.net/service/cancelAPI.json?callback=callback&mid=testmid&tid=AES256XQIdNnkzFwMQmhF7fuJhS3m0%0A&amount=F"
 ```
 
 Apart from these it also responds to `message` and `body`.
 
-#### 3.2 Partial refund
+#### 3.2. Partial refund
 
 For partial refunds, you need to pass `amount` as an option to `refund_transaction` method along with other options.
 
@@ -293,7 +287,7 @@ response = member.refund_transaction('testmid_123456.654321',
                                      order_id: 'ord10001')
 ```
 
-### 4 Profile Pay
+### 4. Profile Pay
 
 You can use the `profile_no` returned from the OpenPayAPI after first payment by a customer to make future payments for him.
 
@@ -301,16 +295,16 @@ You can use the `profile_no` returned from the OpenPayAPI after first payment by
 response = member.profile_pay('profile_1234567890', 'WON', 1000)
 
 response.transaction_type
- => :profile_pay
+#=> :profile_pay
 
 response.http_code
- => "200"
+#=> "200"
 
 response.json
- => {"validecode"=>"00", "authcode"=>"12345678", "authdt"=>"20171120165728", "cardname"=>"BC \x00\x00\x00\x00", "cardnumber"=>"411111**********", "cardtype"=>"301310", "cardquota"=>"00", "cardexpiremonth"=>"11", "cardexpireyear"=>"2020", "merchantno"=>"12345678", "m_tid"=>nil, "paymethodname"=>"CARD_BASIC", "ReplyMsg"=>"\xBA\xBA\xBC\xBD\xC1\xC2\xC3\xC4        OK: 12345678", "ReplyCode"=>"0000", "receipttoname"=>"Test name\xC1\xD1\xB1\xB1\xC1\xA1", "receipttoemail"=>"dev@paygate.net", "subtotalprice"=>"1000", "transactionid"=>"testmid_123456.654321", "hashresult"=>"db1fdc6789cc8d088172b79ca680b3af8711e9fb32", "mb_serial_no"=>"\r\n"}
+#=> {"validecode"=>"00", "authcode"=>"12345678", "authdt"=>"20171120165728", "cardname"=>"BC \x00\x00\x00\x00", "cardnumber"=>"411111**********", "cardtype"=>"301310", "cardquota"=>"00", "cardexpiremonth"=>"11", "cardexpireyear"=>"2020", "merchantno"=>"12345678", "m_tid"=>nil, "paymethodname"=>"CARD_BASIC", "ReplyMsg"=>"\xBA\xBA\xBC\xBD\xC1\xC2\xC3\xC4        OK: 12345678", "ReplyCode"=>"0000", "receipttoname"=>"Test name\xC1\xD1\xB1\xB1\xC1\xA1", "receipttoemail"=>"dev@paygate.net", "subtotalprice"=>"1000", "transactionid"=>"testmid_123456.654321", "hashresult"=>"db1fdc6789cc8d088172b79ca680b3af8711e9fb32", "mb_serial_no"=>"\r\n"}
 ```
 
-### 5 JavaScript helpers
+### 5. JavaScript helpers
 
 `paygate-ruby` also provides a JavaScript class `Paygate` with some helper functions that can be used in your JavaScript e.g.
 
@@ -324,20 +318,10 @@ response.json
 - _fillInput_ - Accepts input name (_camelCased_) and a value to set
 - _submitForm_ - Makes a call to PayGate API with the payment form inputs
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/jagdeepsingh/paygate-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/tablecheck/paygate-ruby.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Paygate project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/jagdeepsingh/paygate-ruby/blob/master/CODE_OF_CONDUCT.md).
