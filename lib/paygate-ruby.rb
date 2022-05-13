@@ -1,18 +1,18 @@
-require "paygate/version"
-
+require 'yaml'
+require 'paygate/version'
 require 'paygate/configuration'
 require 'paygate/aes'
 require 'paygate/aes_ctr'
-
 require 'paygate/member'
 require 'paygate/response'
 require 'paygate/transaction'
 require 'paygate/profile'
-
-require 'paygate/helpers/form_helper' if defined? ActionView
+require 'paygate/helpers/form_helper' if defined?(ActionView)
 
 module Paygate
-  class Engine < ::Rails::Engine; end
+  if defined?(Rails)
+    class Engine < ::Rails::Engine; end
+  end
 
   CONFIG = YAML.load(File.read(File.expand_path('../data/config.yml', File.dirname(__FILE__)))).freeze
   LOCALES_MAP = CONFIG[:locales].freeze

@@ -1,24 +1,22 @@
 # coding: utf-8
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "paygate/version"
+
+require 'paygate/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "paygate-ruby"
+  spec.name          = 'paygate-ruby'
   spec.version       = Paygate::VERSION
-  spec.authors       = ["jagdeepsingh"]
-  spec.email         = ["jagdeepsingh.125k@gmail.com"]
+  spec.authors       = ['jagdeepsingh']
+  spec.email         = ['jagdeepsingh.125k@gmail.com']
+  spec.summary       = 'Ruby wrapper for PayGate Korea payment gateway'
+  spec.license       = 'MIT'
 
-  spec.summary       = 'Ruby wrapper for PayGate payment gateway'
-  spec.license       = "MIT"
+  spec.files         = Dir.glob('lib/**/*') + %w[CHANGELOG.md LICENSE.txt README.md Rakefile]
+  spec.test_files    = Dir.glob('spec/**/*')
+  spec.require_paths = ['lib']
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
-
-  spec.add_development_dependency "bundler", "~> 1.15"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rspec'
 end
