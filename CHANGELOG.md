@@ -2,6 +2,12 @@
 
 ## Next
 
+## 0.1.9 - 2022-05-13
+
+- [PR#6](https://github.com/jagdeepsingh/paygate-ruby/pull/6) Support Ruby 3.1. ([johnnyshields](https://github.com/johnnyshields))
+- [PR#6](https://github.com/jagdeepsingh/paygate-ruby/pull/6) Change repo attribution to TableCheck. ([johnnyshields](https://github.com/johnnyshields))
+- [PR#6](https://github.com/jagdeepsingh/paygate-ruby/pull/6) Add rudimentary CI test. ([johnnyshields](https://github.com/johnnyshields))
+
 ## 0.1.8 - 2020-02-11
 
 - [PR#5](https://github.com/jagdeepsingh/paygate-ruby/pull/5) Add `verify` method to Transaction class and more meta fields to the payment form. ([jagdeepsingh](https://github.com/jagdeepsingh))
