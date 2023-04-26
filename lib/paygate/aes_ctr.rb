@@ -13,7 +13,7 @@ module Paygate
     #  @returns string         Encrypted text
     def self.encrypt(plaintext, password, num_bits)
       block_size = 16      # block size fixed at 16 bytes / 128 bits (Nb=4) for AES
-      return '' unless num_bits.in?([128, 192, 256])
+      return '' unless [128, 192, 256].include?(num_bits)
 
       # use AES itself to encrypt password to get cipher key (using plain password as source for key
       # expansion) - gives us well encrypted key (though hashed key might be preferred for prod'n use)
@@ -60,7 +60,7 @@ module Paygate
       end
 
       cipher_text = ctr_text + cipher_text.join
-      cipher_text = Base64.encode64(cipher_text).gsub(/\n/, '') + "\n";  # encode in base64
+      Base64.encode64(cipher_text).gsub(/\n/, '') + "\n" # encode in base64
     end
 
     # Decrypt a text encrypted by AES in counter mode of operation
@@ -73,7 +73,7 @@ module Paygate
     def self.decrypt(ciphertext, password, nBits)
       blockSize = 16  # block size fixed at 16 bytes / 128 bits (Nb=4) for AES
       return '' unless(nBits==128 || nBits==192 || nBits==256)
-      ciphertext = Base64.decode64(ciphertext);
+      ciphertext = Base64.decode64(ciphertext)
 
       nBytes = nBits/8  # no bytes in key (16/24/32)
       pwBytes = []
@@ -86,7 +86,7 @@ module Paygate
       0.upto(7){|i| counterBlock[i] = ctrTxt.bytes.to_a[i]}
 
       #generate key Schedule
-      keySchedule = Aes.key_expansion(key);
+      keySchedule = Aes.key_expansion(key)
 
       # separate ciphertext into blocks (skipping past initial 8 bytes)
       nBlocks = ((ciphertext.length-8)/blockSize.to_f).ceil
@@ -96,7 +96,7 @@ module Paygate
       ciphertext = ct;  # ciphertext is now array of block-length strings
 
       # plaintext will get generated block-by-block into array of block-length strings
-      plaintxt = [];
+      plaintxt = []
       0.upto(nBlocks-1) do |b|
         0.upto(3){|c| counterBlock[15-c] = urs(b,c*8) & 0xff}
         0.upto(3){|c| counterBlock[15-c-4] = urs((b+1)/(0x100000000-1),c*8) & 0xff}
@@ -108,7 +108,7 @@ module Paygate
         end
         plaintxt[b] = plaintxtByte.join('')
       end
-      plaintext = plaintxt.join('')
+      plaintxt.join('')
     end
 
     private

@@ -2,6 +2,13 @@
 
 ## Next
 
+## 0.2.0 - 2023-04-26
+
+- [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Rename Paygate::FormHelper to Paygate::Rails::FormHelper. ([johnnyshields](https://github.com/johnnyshields))
+- [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Do not include Paygate::FormHelper in ActionView::Base. ([johnnyshields](https://github.com/johnnyshields))
+- [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Update BIN list. Note BINs can now be a flexible number of digits. ([johnnyshields](https://github.com/johnnyshields))
+- [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Rename data config YAML keys. ([johnnyshields](https://github.com/johnnyshields))
+
 ## 0.1.11 - 2022-05-13
 
 - [PR#7](https://github.com/tablecheck/paygate-ruby/pull/7) Fix missed files in gem package. ([johnnyshields](https://github.com/johnnyshields))

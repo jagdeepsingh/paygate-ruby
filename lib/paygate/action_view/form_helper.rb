@@ -1,6 +1,7 @@
 module Paygate
+module ActionView
   module FormHelper
-    FORM_TEXT_FIELDS = {
+    PAYGATE_FORM_TEXT_FIELDS = {
       mid: {
         placeholder: 'Member ID'
       },
@@ -132,7 +133,7 @@ module Paygate
       form_tag({}, name: 'PGIOForm') do
         fields = []
 
-        FORM_TEXT_FIELDS.each do |key, opts|
+        PAYGATE_FORM_TEXT_FIELDS.each do |key, opts|
           arg_opts = options[key] || {}
           fields << text_field_tag(
             key,
@@ -151,5 +152,4 @@ module Paygate
     end
   end
 end
-
-ActionView::Base.send :include, Paygate::FormHelper
+end
