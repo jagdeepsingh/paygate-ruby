@@ -1,5 +1,6 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'paygate/version'
@@ -12,7 +13,8 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Ruby wrapper for PayGate Korea payment gateway'
   spec.license       = 'MIT'
 
+  spec.required_ruby_version = '>= 2.6.0'
   spec.files         = Dir.glob('{data,lib,vendor}/**/*') + %w[CHANGELOG.md LICENSE.txt README.md Rakefile]
-  spec.test_files    = Dir.glob('spec/**/*')
   spec.require_paths = ['lib']
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

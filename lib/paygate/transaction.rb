@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'digest'
 require 'uri'
 require 'net/http'
 
 module Paygate
   class Transaction
-    FULL_AMOUNT_IDENTIFIER = 'F'.freeze
+    FULL_AMOUNT_IDENTIFIER = 'F'
 
     attr_reader :tid
     attr_accessor :member
@@ -15,8 +17,8 @@ module Paygate
 
     def refund(options = {})
       # Encrypt data
-      api_key_256 = ::Digest::SHA256.hexdigest(member.secret)
-      aes_ctr = AesCtr.encrypt(tid, api_key_256, 256)
+      api_key256 = ::Digest::SHA256.hexdigest(member.secret)
+      aes_ctr = AesCtr.encrypt(tid, api_key256, 256)
       tid_enc = "AES256#{aes_ctr}"
 
       # Prepare params
@@ -32,7 +34,7 @@ module Paygate
       response = ::Net::HTTP.get_response(uri)
 
       r = Response.build_from_net_http_response(:refund, response)
-      r.raw_info = OpenStruct.new(tid: tid, tid_enc: tid_enc, request_url: uri.to_s)
+      r.raw_info = OpenStruct.new(tid: tid, tid_enc: tid_enc, request_url: uri.to_s) # rubocop:disable Style/OpenStructUse
       r
     end
 
@@ -47,12 +49,12 @@ module Paygate
       Response.build_from_net_http_response(:verify, response)
     end
 
-    private
-
     def self.refund_api_url
-      (Paygate.configuration.mode == :live) ?
-        'https://service.paygate.net/service/cancelAPI.json' :
+      if Paygate.configuration.mode == :live
+        'https://service.paygate.net/service/cancelAPI.json'
+      else
         'https://stgsvc.paygate.net/service/cancelAPI.json'
+      end
     end
   end
 end

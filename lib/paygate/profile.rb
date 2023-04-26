@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'uri'
 require 'net/http'
 
 module Paygate
   class Profile
-    PURCHASE_URL = 'https://service.paygate.net/INTL/pgtlProcess3.jsp'.freeze
+    PURCHASE_URL = 'https://service.paygate.net/INTL/pgtlProcess3.jsp'
 
     attr_reader :profile_no
     attr_accessor :member

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Paygate
   class Configuration
     MODES = %i[live sandbox].freeze
@@ -10,7 +12,8 @@ module Paygate
 
     def mode=(value)
       value = value.to_sym
-      fail 'Invalid mode. Value must be one of the following: :live, :sandbox' unless value && MODES.include?(value)
+      raise 'Invalid mode. Value must be one of the following: :live, :sandbox' unless value && MODES.include?(value)
+
       @mode = value
     end
   end

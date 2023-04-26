@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module Paygate
   class Member
     attr_reader :mid, :secret
 
     def initialize(mid, secret)
-      @mid, @secret = mid, secret
+      @mid = mid
+      @secret = secret
     end
 
     def refund_transaction(txn_id, options = {})
