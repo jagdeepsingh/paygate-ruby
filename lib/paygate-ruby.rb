@@ -7,18 +7,13 @@ require 'paygate/member'
 require 'paygate/response'
 require 'paygate/transaction'
 require 'paygate/profile'
-require 'paygate/helpers/form_helper' if defined?(ActionView)
+require 'paygate/action_view/form_helper' if defined?(ActionView)
 
 module Paygate
-  if defined?(Rails)
-    class Engine < ::Rails::Engine; end
-  end
-
   CONFIG = YAML.load(File.read(File.expand_path('../data/config.yml', File.dirname(__FILE__)))).freeze
   LOCALES_MAP = CONFIG[:locales].freeze
-  INTL_BRANDS_MAP = CONFIG[:intl][:brands].freeze
-  KOREA_BIN_NUMBERS = CONFIG[:korea][:bin_numbers].freeze
-
+  INTL_BRANDS_MAP = CONFIG[:intl_brands].freeze
+  KOREA_BIN_NUMBERS = CONFIG[:korea_bin_numbers].freeze
   DEFAULT_CURRENCY = 'WON'.freeze
   DEFAULT_LOCALE = 'US'.freeze
 
