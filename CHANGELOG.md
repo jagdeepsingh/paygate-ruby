@@ -4,7 +4,7 @@
 
 ## 0.2.2 - 2023-04-26
 
-- [PR#11](https://github.com/tablecheck/paygate-ruby/pull/12) Re-add Rails Engine (was dropped in version 0.2.0) ([johnnyshields](https://github.com/johnnyshields))
+- [PR#12](https://github.com/tablecheck/paygate-ruby/pull/12) Re-add Rails Engine (was dropped in version 0.2.0) ([johnnyshields](https://github.com/johnnyshields))
 - [PR#12](https://github.com/tablecheck/paygate-ruby/pull/12) Rename Paygate::ActionView::FormHelper to Paygate::Rails::FormHelper. ([johnnyshields](https://github.com/johnnyshields))
 
 ## 0.2.1 - 2023-04-26
