@@ -2,6 +2,10 @@
 
 ## Next
 
+## 0.2.1 - 2023-04-26
+
+- [PR#11](https://github.com/tablecheck/paygate-ruby/pull/11) Deep freeze constants. ([johnnyshields](https://github.com/johnnyshields))
+
 ## 0.2.0 - 2023-04-26
 
 - [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Rename Paygate::FormHelper to Paygate::Rails::FormHelper. ([johnnyshields](https://github.com/johnnyshields))
