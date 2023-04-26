@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Paygate
-  module ActionView
+  module Rails
     module FormHelper
-      PAYGATE_FORM_TEXT_FIELDS = {
+      (PAYGATE_FORM_TEXT_FIELDS = {
         mid: {
           placeholder: 'Member ID'
         },
@@ -117,13 +117,13 @@ module Paygate
 
         profile_no: {
           placeholder: 'Profile No'
-        },
+        }.freeze,
 
         hash_result: {
           name: 'hashresult',
           placeholder: 'Hash Result'
         }
-      }.freeze
+      }.freeze).each_value(&:freeze)
 
       def paygate_open_pay_api_js_url
         if Paygate.configuration.mode == :live
