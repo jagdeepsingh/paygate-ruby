@@ -43,29 +43,35 @@ Contents:
 
 #### 1.1. Include JavaScript
 
-Include the _OpenPayAPI.js_ in `<head>` of your payment page.
+Add `Paygate::Rails::FormHelper` to your controller.
 
-```slim
-= javascript_include_tag paygate_open_pay_api_js_url
+```ruby
+class ApplicationController < ActionController::Base
+  include Paygate::Rails::FormHelper
+```
+
+Then include the _OpenPayAPI.js_ file in `<head>` of your payment page.
+
+```erb
+<%= javascript_include_tag paygate_open_pay_api_js_url %>
 ```
 
 #### 1.2 Payment form
 
 Render the PayGate payment form in your view file.
 
-```slim
-= paygate_open_pay_api_form
+```erb
+<%= paygate_open_pay_api_form %>
 ```
 
 You will see a form with all the necessary fields for making payment with a credit card. Some of the fields have default values set. You can also set the value and placeholder for almost all the fields while rendering the form. See example below:
 
-```slim
-/ payment.html.slim
-= paygate_open_pay_api_form(\
-    mid: { value: 'testmid', placeholder: 'Merchant ID' },
-    currency: { value: 'USD' },
-    amount: { value: 2000 }\
-  )
+```erb
+<%= paygate_open_pay_api_form(
+      mid: { value: 'testmid', placeholder: 'Merchant ID' },
+      currency: { value: 'USD' },
+      amount: { value: 2000 }
+    ) %>
 ```
 
 Here is a list of all the form fields which you can set:
@@ -321,7 +327,3 @@ response.json
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/tablecheck/paygate-ruby.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).

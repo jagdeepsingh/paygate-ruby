@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## Next
+## 0.2.3 - 2023-04-26
+
+- [PR#13](https://github.com/tablecheck/paygate-ruby/pull/13) Make Rails helper functions as module_functions ([johnnyshields](https://github.com/johnnyshields))
 
 ## 0.2.2 - 2023-04-26
 
