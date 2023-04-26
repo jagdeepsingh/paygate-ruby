@@ -26,7 +26,7 @@ module Paygate
       params.merge!(options.slice(:amount))
       params[:amount] ||= FULL_AMOUNT_IDENTIFIER
       params[:mb_serial_no] = options[:order_id]
-      params.delete_if { |_, v| v.blank? }
+      params.compact!
 
       # Make request
       uri = URI(self.class.refund_api_url)

@@ -19,7 +19,8 @@ module Paygate
       params = { profile_no: profile_no,
                  mid: member.mid,
                  goodcurrency: currency,
-                 unitprice: amount }.delete_if { |_, v| v.blank? }
+                 unitprice: amount }
+      params.compact!
 
       # Make request
       uri = URI(PURCHASE_URL)
