@@ -2,13 +2,18 @@
 
 ## Next
 
+## 0.2.2 - 2023-04-26
+
+- [PR#11](https://github.com/tablecheck/paygate-ruby/pull/12) Re-add Rails Engine (was dropped in version 0.2.0) ([johnnyshields](https://github.com/johnnyshields))
+- [PR#12](https://github.com/tablecheck/paygate-ruby/pull/12) Rename Paygate::ActionView::FormHelper to Paygate::Rails::FormHelper. ([johnnyshields](https://github.com/johnnyshields))
+
 ## 0.2.1 - 2023-04-26
 
 - [PR#11](https://github.com/tablecheck/paygate-ruby/pull/11) Deep freeze constants. ([johnnyshields](https://github.com/johnnyshields))
 
 ## 0.2.0 - 2023-04-26
 
-- [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Rename Paygate::FormHelper to Paygate::Rails::FormHelper. ([johnnyshields](https://github.com/johnnyshields))
+- [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Rename Paygate::FormHelper to Paygate::ActionView::FormHelper. ([johnnyshields](https://github.com/johnnyshields))
 - [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Do not include Paygate::FormHelper in ActionView::Base. ([johnnyshields](https://github.com/johnnyshields))
 - [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Update BIN list. Note BINs can now be a flexible number of digits. ([johnnyshields](https://github.com/johnnyshields))
 - [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Rename data config YAML keys. ([johnnyshields](https://github.com/johnnyshields))
