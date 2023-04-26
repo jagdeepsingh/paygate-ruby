@@ -3,11 +3,9 @@
 require_relative '../spec_helper'
 
 RSpec.describe Paygate::Aes do
-  # rubocop:disable RSpec/IndexedLet
   let(:key128) { '0123456789abcdef' }
   let(:key192) { '0123456789abcdef012345' }
   let(:key256) { '0123456789abcdef0123456789abcdef' }
-  # rubocop:enable RSpec/IndexedLet
 
   describe '.cipher' do
     context 'when encrypting with 128-bit key' do
