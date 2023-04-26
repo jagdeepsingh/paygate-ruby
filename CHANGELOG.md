@@ -8,6 +8,7 @@
 - [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Do not include Paygate::FormHelper in ActionView::Base. ([johnnyshields](https://github.com/johnnyshields))
 - [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Update BIN list. Note BINs can now be a flexible number of digits. ([johnnyshields](https://github.com/johnnyshields))
 - [PR#9](https://github.com/tablecheck/paygate-ruby/pull/9) Rename data config YAML keys. ([johnnyshields](https://github.com/johnnyshields))
+- [PR#10](https://github.com/tablecheck/paygate-ruby/pull/10) Add Rubocop and fix compliance issues. ([johnnyshields](https://github.com/johnnyshields))
 
 ## 0.1.11 - 2022-05-13
 

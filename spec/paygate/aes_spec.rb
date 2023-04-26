@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 require_relative '../spec_helper'
 
 RSpec.describe Paygate::Aes do
-  let(:key_128) { '0123456789abcdef' }
-  let(:key_192) { '0123456789abcdef012345' }
-  let(:key_256) { '0123456789abcdef0123456789abcdef' }
+  let(:key128) { '0123456789abcdef' }
+  let(:key192) { '0123456789abcdef012345' }
+  let(:key256) { '0123456789abcdef0123456789abcdef' }
 
   describe '.cipher' do
     context 'when encrypting with 128-bit key' do
       it 'encrypts the input correctly' do
         input = '0123456789abcdef'
         expected_output = '72727e881edcfd0100a718687909b565'
-        key_schedule = described_class.key_expansion(key_128.bytes)
+        key_schedule = described_class.key_expansion(key128.bytes)
         output = described_class.cipher(input.bytes, key_schedule)
 
-        expect(output.pack('c*').unpack('H*').first).to eq(expected_output)
+        expect(output.pack('c*').unpack1('H*')).to eq(expected_output)
       end
     end
 
@@ -21,10 +23,10 @@ RSpec.describe Paygate::Aes do
       it 'encrypts the input correctly' do
         input = '0123456789abcdef01234567'
         expected_output = '943cb7b4f5ec4afcbd2973b72ba25e4a'
-        key_schedule = described_class.key_expansion(key_192.bytes)
+        key_schedule = described_class.key_expansion(key192.bytes)
         output = described_class.cipher(input.bytes, key_schedule)
 
-        expect(output.pack('c*').unpack('H*').first).to eq(expected_output)
+        expect(output.pack('c*').unpack1('H*')).to eq(expected_output)
       end
     end
 
@@ -32,10 +34,10 @@ RSpec.describe Paygate::Aes do
       it 'encrypts the input correctly' do
         input = '0123456789abcdef0123456789abcdef'
         expected_output = 'f83c9a60dc0cdb98219f79d6d5db1635'
-        key_schedule = described_class.key_expansion(key_256.bytes)
+        key_schedule = described_class.key_expansion(key256.bytes)
         output = described_class.cipher(input.bytes, key_schedule)
 
-        expect(output.pack('c*').unpack('H*').first).to eq(expected_output)
+        expect(output.pack('c*').unpack1('H*')).to eq(expected_output)
       end
     end
   end
@@ -92,7 +94,7 @@ RSpec.describe Paygate::Aes do
       end
 
       it 'returns the expected key schedule' do
-        key = key_128.bytes
+        key = key128.bytes
         schedule = described_class.key_expansion(key)
         expect(schedule).to eq(expected_schedule)
       end
@@ -153,7 +155,7 @@ RSpec.describe Paygate::Aes do
       end
 
       it 'returns the expected key schedule' do
-        key = key_192.bytes
+        key = key192.bytes
         schedule = described_class.key_expansion(key)
         expect(schedule).to eq(expected_schedule)
       end
@@ -226,7 +228,7 @@ RSpec.describe Paygate::Aes do
       end
 
       it 'returns the expected key schedule' do
-        key = key_256.bytes
+        key = key256.bytes
         schedule = described_class.key_expansion(key)
         expect(schedule).to eq(expected_schedule)
       end

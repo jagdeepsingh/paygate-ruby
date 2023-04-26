@@ -2,8 +2,8 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'basic' do
+RSpec.describe Paygate do
   it 'can load gem' do
-    expect(true).to eq true
+    expect(described_class).to_not be_nil
   end
 end

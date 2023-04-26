@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Paygate
   class Response
     attr_accessor :transaction_type, :http_code, :message, :body, :raw_info, :json
