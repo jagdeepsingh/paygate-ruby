@@ -132,6 +132,7 @@ module Paygate
           'https://stgapi.paygate.net/ajax/common/OpenPayAPI.js'
         end
       end
+      module_function :paygate_open_pay_api_js_url
 
       def paygate_open_pay_api_form(options = {})
         form_tag({}, name: 'PGIOForm') do
@@ -150,10 +151,12 @@ module Paygate
           fields.join.html_safe
         end.html_safe
       end
+      module_function :paygate_open_pay_api_form
 
       def paygate_open_pay_api_screen
         content_tag(:div, nil, id: 'PGIOscreen')
       end
+      module_function :paygate_open_pay_api_screen
     end
   end
 end
